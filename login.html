@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-container {
+      background: white;
+      padding: 25px 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .message {
+      margin-top: 10px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .warning {
+      color: orange;
+    }
+
+    .error {
+      color: red;
+    }
+
+    .success {
+      color: green;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    function login() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const messageBox = document.getElementById("message");
+      messageBox.textContent = "";
+
+      // Clear previous message styles
+      messageBox.classList.remove("error", "warning", "success");
+
+      // Check if fields are empty
+      if (!username || !password) {
+        messageBox.textContent = "🔴 Ask for both";
+        messageBox.classList.add("error");
+        return;
+      }
+
+      // Check username length
+      if (username.length < 3) {
+        messageBox.textContent = "🟠 Username too short";
+        messageBox.classList.add("warning");
+        return;
+      }
+
+      // Check if username contains special characters
+      const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/g;
+      if (specialCharRegex.test(username)) {
+        messageBox.textContent = "🚫 Username should not contain special characters";
+        messageBox.classList.add("warning");
+        return;
+      }
+
+      // Check if password length is too short
+      if (password.length < 6) {
+        messageBox.textContent = "🟠 Password must be at least 6 characters";
+        messageBox.classList.add("warning");
+        return;
+      }
+
+      // Check if password is weak (doesn't contain numbers or special characters)
+      const weakPasswordRegex = /[0-9!@#$%^&*(),.?":{}|<>]/g;
+      if (!weakPasswordRegex.test(password)) {
+        messageBox.textContent = "⚠ Password should contain a number/symbol";
+        messageBox.classList.add("warning");
+        return;
+      }
+
+      // If username and password are valid
+      messageBox.textContent = "✅ Login successful";
+      messageBox.classList.add("success");
+    }
+
+  </script>
+</body>
+</html>
